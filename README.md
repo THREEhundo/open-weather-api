@@ -1,11 +1,23 @@
-# Open Weather Map API
+# Weather App
 
-A weather app created with React, utilizing the Open Weather API.
+Simple web application that shows weather conditions for cities around the world.
+Originally a vanilla JavaScript application, it has been refactored into a ReactJS application.
 
-This project was bootstrapped with [Open Weather Map](https://openweathermap.org/).
+## Live Demo
 
-## Functionality
+[Live Demo](https://threehundo.github.io/weather-api/)
 
-- Search current weather for a particular locale.
-- Adjustable unit of measurement.
-- Display current weather data.
+## Build List
+
+- HTML
+- CSS
+- JavaScript
+- Openweathermap API
+- Weather Icons
+
+## Features
+
+Day/Night background synced to current time.
+
+## Credit
+The icon designs are originally by [Lukas Bischoff](https://twitter.com/artill). Icon art HTML, Less, and CSS are by [Erika Bisch](https://www.helloerik.com/)
