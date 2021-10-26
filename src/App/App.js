@@ -7,13 +7,26 @@ function App() {
     isError: false,
     errorMessage: null,
     locale_data: null,
+    capitalize: (s) => {
+      if (typeof s !== 'string') return;
+      if (s.includes(" ")) {
+        const words = s.split(" ");
+        const capitalizeWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1));
+        const category = capitalizeWords.join(" ");
+        console.log(category)
+        return category;
+        //words.map(word => word.charAt(0).toUpperCase() + s.slice(1));
+      };
+      return s.charAt(0).toUpperCase() + s.slice(1);
+    },
    });
-  const { isLoading, isError, errorMessage, locale_data } = data;
+
+  const { isLoading, isError, errorMessage, locale_data, capitalize } = data;
   // const [isError, setIsError] = useState(false);
   // const [isLoading, setIsLoading] = useState(false);
   // const [errorMsg, setErrorMsg] = useState(null);
   
-  console.log('hi', data)
+  // console.log('hi', data)
 
   useEffect(() => {
     const fetchWeather = async (city, f) => {
@@ -36,30 +49,29 @@ function App() {
             mode: "cors",
           });
 
-        console.log(response)
+        // console.log(response)
         if (!response.ok) throw Error('City could not be found')
         
         const data = await response.json();
-        
-
-
+   
         locale_data = {
           city: data.name,
           country: data.sys.country,
-          feels_like: data.main.feels_like,
+          "feels like": data.main.feels_like,
           humidity: data.main.humidity,
           temperature: data.main.temp,
-          max_temp: data.main.temp_max,
-          min_temp: data.main.temp_min,
+          "max temp": data.main.temp_max,
+          "min temp": data.main.temp_min,
           description: data.weather[0].description,
           wind: data.wind.speed,
           sunrise: data.sys.sunrise,
           sunset: data.sys.sunset,
-          icon_id: data.weather[0].id,
-          icon_name: data.weather[0].icon,
-          locale_time: data.dt,
+          "icon id": data.weather[0].id,
+          "icon name": data.weather[0].icon,
+          "locale time": data.dt,
           timezone: data.timezone
         }
+
         setData(state => {
           const newState = { ...state };
           newState.locale_data = locale_data;
@@ -86,7 +98,7 @@ function App() {
     // setIsLoading(false);
   }
 
-  fetchWeather("los", "imperial");
+  fetchWeather("los angeles", "imperial");
 
 
 
@@ -100,17 +112,21 @@ function App() {
     <div className="App">
       <div>{ isError && <div id="error-message">{errorMessage}</div> }</div>
       <div>{ isLoading && <div id="loading-message">Loading...</div> }</div> {/* Swirl Logo */}
-      {locale_data && <WeatherPane locale_data={locale_data} />}
+      {locale_data && <WeatherPane locale_data={locale_data} capitalize={capitalize} />}
     </div>
   );
   
 }
 
-const WeatherPane = ({ data }) => {
-  console.log("weather pane", data)
+const WeatherPane = ({ locale_data, capitalize }) => {
+  
+  console.log("weather pane", { locale_data })
   return (<div>
-        {/* <div>{Object.keys(data).map((x, i) => <p key={i}>{x}</p>)}</div>
-        <div>{Object.entries(data).map((x, i) => <p key={i}>{x}</p>)}</div> */}
+        <div>
+        {Object.keys(locale_data).map((x, i) => <p key={i}>{capitalize(x)} : </p>)}
+        {/* {Object.keys(locale_data).map((x, i) => <p key={i}>{capitalize(x)} : </p>)} */}
+        </div>
+        {/* <div>{Object.entries(locale_data).map((x, i) => <p key={i}>{x}</p>)}</div> */}
       </div>)
 }
 
