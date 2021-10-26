@@ -8,7 +8,7 @@ function App() {
     errorMessage: null,
     locale_data: null,
     capitalize: (s) => {
-      if (typeof s !== 'string') return;
+      if (typeof s !== 'string') return s;
       if (s.includes(" ")) {
         const words = s.split(" ");
         const capitalizeWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1));
@@ -103,10 +103,6 @@ function App() {
 
 
   }, []);
-  
-  // if (!locale_data) {
-
-  // }
 
   return (
     <div className="App">
@@ -119,13 +115,36 @@ function App() {
 }
 
 const WeatherPane = ({ locale_data, capitalize }) => {
-  
+  const shown = {
+    display: "flex",
+    flexFlow: "row",
+  }
+  const columns = {
+    display: "flex",
+    flexFlow: "column",
+  }
+  const rows = {
+    display: "flex",
+    flexFlow: "row",
+  }
   console.log("weather pane", { locale_data })
-  return (<div>
+  return (<div style={shown}>
         <div>
-        {Object.keys(locale_data).map((x, i) => <p key={i}>{capitalize(x)} : </p>)}
+          {/* {Object.keys(locale_data).map((x, i) => <p key={i}>{capitalize(x)} : </p>)} */}
         {/* {Object.keys(locale_data).map((x, i) => <p key={i}>{capitalize(x)} : </p>)} */}
         </div>
+        <div>
+          {Object.entries(locale_data).map((category, i) => {
+            const [key, value] = category;
+            return (
+              <div key={i} style={rows}>
+                <div>{capitalize(key)} : </div>
+                <div>{capitalize(value)}</div>
+              </div>
+              )//<p key={i}>{category}</p>
+            })
+            }
+        </div> 
         {/* <div>{Object.entries(locale_data).map((x, i) => <p key={i}>{x}</p>)}</div> */}
       </div>)
 }
